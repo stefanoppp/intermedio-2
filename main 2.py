@@ -6,43 +6,52 @@ class Perceptron:
         self.pesos=pesos
         self.entradas=entradas
         self.salidas=salidas
-        self.lr=0.1
-
-    def balanceo_peso(self):
-        errores=[]
-        cant_errores=4
-        iteraciones=0
-        while cant_errores!=0:
-            for i in range(len(self.entradas)):
-                prod_escalar=np.dot(self.entradas[i],self.pesos)
-                salida_obtenida=self.sigmoidea(prod_escalar)
-                error=(self.salidas[i]-salida_obtenida)
-
-                if error<=0.1:
-                    cant_errores=cant_errores-1
+        self.lr=0.4
+        self.tolerancia=4
+        self.actualizaciones=0
+        
+    def obtener_valores(self):
+        for i in range(len(self.entradas)):
+            for j in range(len(self.entradas[i])):
+                if self.entradas[i][j]==0:
+                    self.entradas[i][j]=-1
+        
+        for i in range(len(self.salidas)):
+            if self.salidas[i]==0:
+                self.salidas[i]=-1
+    
+    def actualizar(self):
+        
+            for i in range(len(self.entradas)):        
+                salida_obtenida=1*(self.entradas[i].dot(self.pesos)>0)
+                error=self.salidas[i]-salida_obtenida
+                
+                if error==0:
+                    self.tolerancia-=1
+                    if self.tolerancia==0:
+                        print("Nuevos pesos: ",self.pesos)
+                        print("Iteraciones: ",self.actualizaciones)
+        
                 else:
-                    delta=salida_obtenida*(1-salida_obtenida)*error
-                    delta_peso=self.lr*self.entradas[i]*delta
-                    self.pesos=self.pesos+delta_peso
-                    cant_errores=4
-                iteraciones+=1
-        print("Pesos finales") 
-        print(self.pesos)
-        print("Errores")
-        print(errores)
-                                              
-            
+                    for j in range(len(self.entradas[i])):
+                        self.pesos[j]=self.pesos[j]+(self.lr*error*self.entradas[i][j])
+                    self.actualizaciones+=1
+                    self.tolerancia=4
+                    
+        
     def sigmoidea(self,salida_obtenida):
         sig = 1/(1 + math.exp(-salida_obtenida))
-        return sig
-
-np_matrix_pesos=np.array([0.9,0.66,-0.2])
-np_matrix_entradas=np.array([[1,0,1],[1,1,1],[0,1,0],[0,1,1]])
-np_matrix_salidas=np.array([0,1,0,0])
+        return sig       
+        
+np_matrix_pesos=np.array([0.6473185,0.37817776,0.33160055]) 
+np_matrix_entradas=np.array([[1,1,1],[1,1,0],[1,0,1],[1,0,0]]) 
+np_matrix_salidas=np.array([1,0,0,0]) 
 and_perceptor=Perceptron(np_matrix_pesos,np_matrix_entradas,np_matrix_salidas)
 if __name__=="__main__":
     
-    print(and_perceptor.balanceo_peso())
+    and_perceptor.obtener_valores()
+    and_perceptor.actualizar()
+    
     
     # contador=0
     # pesos=[]
