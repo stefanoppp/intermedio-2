@@ -21,13 +21,19 @@ class Perceptron:
                 self.salidas[i]=-1
     
     def actualizar(self):
-        
-            for i in range(len(self.entradas)):        
-                salida_obtenida=1*(self.entradas[i].dot(self.pesos)>0)
+            i=0
+            while i in range(len(self.entradas)):        
+                salida_obtenida=np.dot(self.pesos,self.entradas[i])
+                if salida_obtenida<0:
+                    salida_obtenida=-1
+                else:
+                    salida_obtenida=1
+                    
                 error=self.salidas[i]-salida_obtenida
                 
                 if error==0:
                     self.tolerancia-=1
+                    i+=1
                     if self.tolerancia==0:
                         print("Nuevos pesos: ",self.pesos)
                         print("Iteraciones: ",self.actualizaciones)
@@ -37,11 +43,8 @@ class Perceptron:
                         self.pesos[j]=self.pesos[j]+(self.lr*error*self.entradas[i][j])
                     self.actualizaciones+=1
                     self.tolerancia=4
+                    i=0
                     
-        
-    def sigmoidea(self,salida_obtenida):
-        sig = 1/(1 + math.exp(-salida_obtenida))
-        return sig       
         
 np_matrix_pesos=np.array([0.6473185,0.37817776,0.33160055]) 
 np_matrix_entradas=np.array([[1,1,1],[1,1,0],[1,0,1],[1,0,0]]) 
@@ -51,34 +54,3 @@ if __name__=="__main__":
     
     and_perceptor.obtener_valores()
     and_perceptor.actualizar()
-    
-    
-    # contador=0
-    # pesos=[]
-    # peso1=[]
-    # peso2=[]
-    # peso3=[]
-    # while contador<100:
-    #     print(and_perceptor.balanceo_peso())
-    #     # pesos_balanceados=and_perceptor.balanceo_peso()
-    #     # pesos.append(pesos_balanceados)
-    #     contador+=1
-        
-        
-    # for peso in pesos:
-    #     for j in peso:
-    #         count=0
-    #         for k in j:
-    #             if count==0:
-    #                 peso1.append(k)
-    #             if count==1:
-    #                 peso2.append(k)
-    #             if count==2:
-    #                 peso3.append(k)
-    #             count+=1 
-    # print(peso1)
-    # print(peso2) 
-    # plt.plot(peso1,'g')
-    # plt.plot(peso2,'r')
-    # plt.plot(peso3,'k')
-    # plt.show()
