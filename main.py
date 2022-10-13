@@ -1,24 +1,53 @@
 from neurona_final import Neurona_final
 from neuronas_ocultas import Neurona_oculta
-
+import matplotlib.pyplot as plt
+import random
 def main():
     
-    entradas=[[1,0,0],[1,1,1],[0,1,1],[0,0,0],[0,0,1]]
+    entradas=[[1,0,0],
+              [1,1,1],
+              [0,1,1],
+              [0,0,0],
+              [0,0,1]]
     
     salidas=[1,0,0,0,1]
     
-    delta=1
+    cant_neuronas=int(input("Digite cantidad de neuronas: "))
+    iteraciones=int(input("Digite cantidad de iteraciones: "))
     
-    neurona_1=Neurona_oculta([0.9,0.7,0.5],entradas[0])
-    neurona_2=Neurona_oculta([0.3,-0.9,-1],entradas[0])
-    neurona_3=Neurona_oculta([0.8,0.35,0.1],entradas[0])
-    print(neurona_1.obtener_salida())
-    print(neurona_2.obtener_salida())
-    print(neurona_3.obtener_salida())
-    neurona_final=Neurona_final([-0.23,-0.79,0.56,0.6],salidas[0],[1,
-                                                            neurona_1.obtener_salida(),
-                                                            neurona_2.obtener_salida(),
-                                                            neurona_3.obtener_salida()])
-    print(neurona_final.actualizar_pesos()) 
+    neuronas=[]
+    # generamos neuronas ocultas con 3 pesos c/u
+    for i in range(cant_neuronas):
+        pesos_neuronales=[]
+        for j in range(3):
+            peso_random=random.random()
+            pesos_neuronales.append(peso_random)
+        n=Neurona_oculta(pesos_neuronales)
+        neuronas.append(n)
+    
+    # generamos neurona final con 1 peso por cada neurona generada
+    pesos_finales=[]
+    for j in range(len(neuronas)):
+        peso_random=random.random()
+        pesos_finales.append(peso_random)
+    nf=Neurona_final(pesos_finales)
 
+    # comienza la iteracion
+    
+    for i in range(iteraciones):
+        for j in range(len(entradas)):
+            salidas_ocultas=[]
+            # obtengo salidas de capa oculta
+            for k in range(len(neuronas)):
+                salida=neuronas[k].obtener_salida(entradas[j])
+                salidas_ocultas.append(salida)
+        
+            salida_red=nf.obtener_salida(salidas)
+            error_red=nf.obtener_error()   
+            
+            for l in range(len(neuronas)):
+                error_oculto=neuronas[l].obtener_error(salidas_ocultas,salidas[j])
+                print(error_oculto)
+                
+         
 main()
