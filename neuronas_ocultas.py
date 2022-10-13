@@ -15,11 +15,11 @@ class Neurona_oculta:
         error=salida_real*(1-salida_real)*(peso_entrada_neurona_final*error_red)
         return error
         
-    def calcular_nuevos_pesos(self,error_capa_oculta,peso_capa_oculta,entrada):
-        salida_real=self.obtener_salida()
+    def calcular_nuevos_pesos(self,error_capa_oculta,peso_capa_oculta,entradas):
+        salida_real=self.obtener_salida(entradas)
         error=salida_real*(1-salida_real)*(error_capa_oculta*peso_capa_oculta)
         for i in range(len(self.pesos)):
-            self.pesos[i]=self.pesos[i]+(self.lr*entrada[i]*error)
+            self.pesos[i]=self.pesos[i]+(self.lr*entradas[i]*error)
         return self.pesos
 
     def sigmoidea(self,prod_escalar):

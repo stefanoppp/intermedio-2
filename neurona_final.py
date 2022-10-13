@@ -15,9 +15,9 @@ class Neurona_final:
         error=salida_obtenida*(1-salida_obtenida)*(salida-salida_obtenida)
         return error
         
-    def calcular_nuevos_pesos(self,error,entradas):
+    def calcular_nuevos_pesos(self,error_red,entradas):
         for i in range(len(self.pesos)):
-            self.pesos[i]=self.pesos[i]+(self.lr*entradas[i]*error)
+            self.pesos[i]=self.pesos[i]+(self.lr*entradas[i]*error_red)
         return self.pesos
 
     def sigmoidea(self,prod_escalar):
