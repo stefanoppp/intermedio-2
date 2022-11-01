@@ -74,29 +74,11 @@ class Back_Propagation():
         for element in array:
             plt.plot(element)
         plt.show()
-                
-fotos=['1A57190.jpg',
-        '1B57190.jpg']
-entradas=[]
-salidas=[1,0,1,0]
-for foto in fotos:
-    image=cv2.imread(foto)
-    auxiliar=[]
-    for alto in image:
-        for ancho in alto:
-            auxiliar.append(ancho[0])
-    auxiliar.append(1)
-    entradas.append(auxiliar)
 
-back=Back_Propagation(entradas,salidas)
-back.main()
-
-
-# salidas=[1,0,1,0]
-# entradas_2=[[1,0,0,1],
-#             [1,1,0,1],
-#             [1,1,1,1],
-#             [0,1,0,1]]
-# salidas_2=[1,0,0,1]
-# back_2=Back_Propagation(entradas_2,salidas_2) 
-# back_2.main()                              
+entradas_2=[[1,0,0,1],
+            [1,1,0,1],
+            [1,1,1,1],
+            [0,1,0,1]]
+salidas_2=[1,0,0,1]
+back_2=Back_Propagation(entradas_2,salidas_2) 
+back_2.main()   
