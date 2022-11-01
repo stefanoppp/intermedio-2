@@ -19,7 +19,7 @@ class Back_Propagation():
         for i in range(cant_neuronas):
             pesos_neuronales=[]
             for j in range(len(self.entradas[0])):
-                peso_random=random.random()
+                peso_random=random.uniform(-0.01,0.01)
                 pesos_neuronales.append(peso_random)
             n=Neurona_oculta(pesos_neuronales)
             neuronas.append(n)
@@ -75,10 +75,29 @@ class Back_Propagation():
             plt.plot(element)
         plt.show()
 
-entradas_2=[[1,0,0,1],
-            [1,1,0,1],
-            [1,1,1,1],
-            [0,1,0,1]]
-salidas_2=[1,0,0,1]
-back_2=Back_Propagation(entradas_2,salidas_2) 
+# entradas_2=[[1,0,0,1],
+#             [1,1,0,1],
+#             [1,1,1,1],
+#             [0,1,0,1]]
+# salidas_2=[1,0,0,1]
+# back_2=Back_Propagation(entradas_2,salidas_2) 
+# back_2.main()   
+fotos=['1A57190.jpg',
+       '1B57190.jpg',
+       '2A57190.jpg',
+       '2B57190.jpg']
+
+salidas=[1,0,1,0]
+
+pixeles_fotos=[]
+
+for foto in fotos:
+    image = cv2.imread(foto)
+    auxiliar=[]
+    for alto in image:
+        for ancho in alto:
+            auxiliar.append(ancho[0])
+    auxiliar.append(1)
+    pixeles_fotos.append(auxiliar)
+back_2=Back_Propagation(pixeles_fotos,salidas) 
 back_2.main()   
