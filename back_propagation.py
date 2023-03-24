@@ -30,6 +30,7 @@ class Back_Propagation():
             pesos_finales.append(peso_random)
         nf=Neurona_final(pesos_finales)
         errores=[]
+        salidas_red=[]
         # comienza la itereacion
         for iteracion in range(iteraciones):
             for i in range(len(self.entradas)):
@@ -41,6 +42,7 @@ class Back_Propagation():
                 salidas_ocultas.append(1)
                 # recalculamos pesos finales
                 salida_red=nf.obtener_salida(salidas_ocultas)
+                salidas_red.append(salida_red)
                 error_red=nf.obtener_error(self.salidas[i],salida_red)
                 errores.append(error_red)
                 delta_final=nf.obtener_delta_final(salida_red,error_red)
@@ -61,33 +63,70 @@ class Back_Propagation():
                     neurona.calcular_nuevos_pesos(variaciones)
             print("Iteracion ",iteracion+1)
             print(error_red)
-        array=[]
-        for i in range(len(self.entradas)):
-            array.append([])
+            
+        while True:
+            foto=input("Ingrese nombre de foto que desea probar con extension(jpg,png,etc): ")
+            image = cv2.imread(foto)
+            pixeles=[]
+            for alto in image:
+                for ancho in alto:
+                    pixeles.append(ancho[0])
+            pixeles.append(1)
+            pixeles_fotos.append(pixeles)
+    
+            salidas=[]
+            for neurona in neuronas:
+                salida=neurona.obtener_salida(pixeles)
+                salidas.append(salida)
+            salidas.append(1)
+            salida_final=nf.obtener_salida(salidas)
+            if round(salida_final)==1:
+                print("Renata")
+            else:
+                print("Mabel")
+            print("\n")
+        # --------------------------consigna 7    
+        # array=[]
+        # for i in range(len(self.salidas)):
+        #     array.append([])
+        #     j=0
+        # for i in range(len(salidas_red)):
+        #     array[j].append(salidas_red[i])
+        #     j+=1
+        #     if j==len(array):
+        #         j=0
+        # for element in array:
+        #     plt.plot(element)
+        # plt.show()
+    
+            
+            
+        # -------------------GRAFICA DE ERRORES------------------        
+        # array=[]
+        # for i in range(len(self.entradas)):
+        #     array.append([])
         
-        j=0
-        for i in range(len(errores)):
-            array[j].append(errores[i])
-            j+=1
-            if j==len(array):
-                j=0
-        for element in array:
-            plt.plot(element)
-        plt.show()
+        # j=0
+        # for i in range(len(errores)):
+        #     array[j].append(errores[i])
+        #     j+=1
+        #     if j==len(array):
+        #         j=0
+        # for element in array:
+        #     plt.plot(element)
+        # plt.show()
 
-# entradas_2=[[1,0,0,1],
-#             [1,1,0,1],
-#             [1,1,1,1],
-#             [0,1,0,1]]
-# salidas_2=[1,0,0,1]
-# back_2=Back_Propagation(entradas_2,salidas_2) 
-# back_2.main()   
-fotos=['1A57190.jpg',
-       '1B57190.jpg',
-       '2A57190.jpg',
-       '2B57190.jpg']
 
-salidas=[1,0,1,0]
+
+fotos=['1A58099.jpg',
+       '1B58099.jpg',
+       '2A58099.jpg',
+       '2B58099.jpg',
+       '3A58099.jpg',
+       '3B58099.jpg'
+       ]
+
+salidas=[1,0,1,0,1,0,1,0,1,0]
 
 pixeles_fotos=[]
 
